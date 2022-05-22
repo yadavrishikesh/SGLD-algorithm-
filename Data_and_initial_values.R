@@ -280,7 +280,7 @@ init1<-c(tilde.param.init1, log.X2.init1, log.X3.init1)
 #init1<-c(tilde.param.init1, log.X2.init1, log.X3.init1)
 
 
-############################ Initial value for chain2
+############################ Initial1 value for chain2
 
 gamma0.init2<- 0.1 #gamma RATE for X2 (denominator) (i.e., controls the overall scale of the data)
 gamma1.init2 <- 2
