@@ -311,5 +311,5 @@ log.X2.init2<-log(data.simulated.init2$X2)
 log.X3.init2<-log(data.simulated.init2$X3)
 init2<-c(tilde.param.init2, log.X2.init2, log.X3.init2)
 
-  save(Y, Y1, cov, cens.ind, log.tilde.param, X2, X3, init1, init2, ntime, nsites, u.thr, dist.mat=dist.mat, param, log.tilde.param, prob, rho.upper.range,
-      file="/Users/yadavr/Dropbox (KAUST)/Paper2/Semi_conditional_model/Review_SpatialStats/Rcode/Simulation_GitHub/Data_nsites_20_ntime_100.Rdata")
+ # save(Y, Y1, cov, cens.ind, log.tilde.param, X2, X3, init1, init2, ntime, nsites, u.thr, dist.mat=dist.mat, param, log.tilde.param, prob, rho.upper.range,
+  #    file="/Users/yadavr/Dropbox (KAUST)/Paper2/Semi_conditional_model/Review_SpatialStats/Rcode/Simulation_GitHub/Data_nsites_20_ntime_100.Rdata")
