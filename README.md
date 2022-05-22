@@ -5,11 +5,11 @@
 ## Reference Paper: R., Huser, R. and Opitz, T. (2022) A flexible Bayesian hierarchical modeling framework for spatially dependent peaks-over-threshold data. Spatial Statistics 
 
 ## This set of R codes simulate and do the inference of the the product mixtture models detailed below: 
-PARAMETERS for Gamma-Gamma model: $Y(s)= alpha(s) X1(s) * X2 * X3(s)$, 
- X1(s): i.i.d Weibull(1/beta1,1/gamma(1+beta1)), with shape 1/beta1 and scale 1/gamma(1+beta1), where: gamma(x) is the gamma function  
-X2 spatially constant values (varying with respect to time only) with marginal Weibull(1/beta2,1/gamma(1+beta2))  
- X3(s): marginally Inv-Gamma(beta3,beta3-1), with rate beta3-1 >0 and shape beta3 > 1, dependence structure governed by Gaussian copula with exponential correlation function exp(-h/rho), h>=0, with range rho>0  
- alpha(s): scale parameter of the model with exp(gamma0 + gamma1 * Z1(s) + gamma2 * Z2(s) + gamma3 * Z3(s)), where Zi(s), i=1,2,3 are the spatial covariates 
+PARAMETERS for Gamma-Gamma model: $Y(s)= \alpha(s) X_1(s) X_2(s) X_3(s)$,  
+$X_1(s)$: i.i.d Weibull(1/beta1,1/gamma(1+beta1)), with shape 1/beta1 and scale 1/gamma(1+beta1), where: gamma(x) is the gamma function  
+$X_2(s)$: spatially constant values (varying with respect to time only) with marginal Weibull(1/beta2,1/gamma(1+beta2))  
+$X_3(s):$ marginally Inv-Gamma(beta3,beta3-1), with rate beta3-1 >0 and shape beta3 > 1, dependence structure governed by Gaussian copula with exponential correlation function exp(-h/rho), h>=0, with range rho>0  
+$\alpha(s):$ scale parameter of the model with $\exp(\gamma_0 + \gamma_1 * Z1(s) + \gamma_2 * Z_2(s) + \gamma_3 * Z_3(s))$, where $Z_i(s), i=1,2,3$ are the spatial covariates 
 
 
 
