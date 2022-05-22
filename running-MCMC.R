@@ -113,7 +113,7 @@ if(chain_s=="chain1"){
 } else if (chain_s=="chain2") {
   init<-init2
 }
-############ The sequence after which we are updating the tun8ing parameter
+############ The sequence after which we are updating the tuning parameter
 n.block<-6
 scale_adapt_seq<-seq(from=adapt, to=N.MCMC, by=n.block*adapt)
 beta1_adapt_seq<-seq(from=2*adapt, to=N.MCMC, by=n.block*adapt)
