@@ -34,8 +34,8 @@ Alg.no<-"Alg1"
 #### Algorithm 1
 if(Alg.no=="Alg1"){
   Prop_type_1<-"MALA"
-  Prop_type_2<-"MALA"
-  Prop_type_3<-"MALA"
+  Prop_type_2<-"RWM"
+  Prop_type_3<-"RWM"
   Prop_type_4<-"MALA"
 }
 
