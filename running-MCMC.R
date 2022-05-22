@@ -1,18 +1,9 @@
 rm(list = ls())
 setwd("/Users/yadavr/Dropbox (KAUST)/Paper2/Semi_conditional_model/Review_SpatialStats/Rcode/Simulation_GitHub/")
-
-args <- commandArgs(TRUE)
-for (arg in args) {
-  eval(parse(text = arg))
-  # print(arg)
-}
-rm(arg, args)
 library(mvtnorm)
-######### loading the data and source file
-#load("Data.Rdata")
+######### loading the R data and source file
 load("Data_nsites_20_ntime_100.Rdata")
-#load("SimData_RealData_spaceDimesion_ntime_200.Rdata")
-source("other-function.R")
+source("other-function.R") 
 source("update.param.R")
 source("MCMC_main_function.R")
 source("update_tuning_param_function.R")
@@ -27,14 +18,12 @@ if(appltype=="simulation"){
   param.names<-param.names<-c(paste0("alpha","[",1:n.cov,"]"), paste0("beta","[",1:n.cov,"]"), paste0("X2","[",1:n.cov,"]"), paste0("X3","[",1:n.cov,"]"))
 }
 
-### Types of proposals for scale
-
-Alg.no<-"Alg1"
-
+### Types of proposals distribution in the hyperparameters of two different algorithms (see the README.md file for more details)
+Alg.no<-"Alg1"  ## Name of Algorithm, whether it is algorithm 1 or Algorithm 2
 #### Algorithm 1
 if(Alg.no=="Alg1"){
-  Prop_type_1<-"MALA"
-  Prop_type_2<-"RWM"
+  Prop_type_1<-"MALA" # Here MALA referse to SGLD whereas RWM referes for random walk proposals, 
+  Prop_type_2<-"RWM" 
   Prop_type_3<-"RWM"
   Prop_type_4<-"MALA"
 }
@@ -48,8 +37,7 @@ Prop_type_4<-"RWM"
 } 
 
 
-
-############## Fixed parameters
+############## Fixed parameters in MCMC setting
 ntime.total<-ntime
 delta<-10^(-5)
 hyper.fixed<-c(10,2,2,1/3,1/100) ## fixed parameters in hyperparameter: sd of Gaussian in cov;  a and b in dbeta for beta1 and beta2; shape and rate in dgamma for beta3 and  rho
@@ -71,10 +59,9 @@ theta.beta1<-0.6
 theta.beta2<-0.6
 theta.beta3.rho<-0.6
 
-
-######### Batch size 
+######### Batch size  in SGLD algorithm 
 batch<- 5
-T.acc=floor(ntime.total/batch)
+T.acc=floor(ntime.total/batch) ## Number of iterations after which we usually use the MH corrections in case of SGLD (MALA) [for RWM this is ==1]
 
 if(Prop_type_1=="MALA"){
   T.acc_1<-T.acc 
@@ -101,9 +88,7 @@ if(Prop_type_4=="RWM"){
   T.acc_4<-1
 }
 
-
-epoch<-T.acc
-
+epoch<-T.acc ##
 ## which chain to be used, for two different initial values
 chains<-c("chain1","chain2")
 chain<- 1
@@ -122,7 +107,7 @@ beta3.rho_adapt_seq<-seq(from=4*adapt, to=N.MCMC, by=n.block*adapt)
 X2_adapt_seq<-seq(from=5*adapt, to=N.MCMC, by=n.block*adapt)
 X3_adapt_seq<-seq(from=6*adapt, to=N.MCMC, by=n.block*adapt)
 
-#### Running the MCMC algorithm
+#### Running the MCMC algorithm, The main MCMC function
 set.seed(1)
 start_time1<-Sys.time()
 MCMC.ouput<- MCMC_main_function(N.MCMC=N.MCMC, Y=Y, init=init, thin=thin, adapt=adapt, burning1 = burning1, burning2=burning2,
