@@ -4,9 +4,9 @@
 
 ### For more details about the R code, contact rishikesh.yadav@kaust.edu.sa and see the below Reference paper
 
-### Reference Paper: Yadav, R., Huser, R., and Opitz, T. (2022) A flexible Bayesian hierarchical modeling framework for spatially dependent peaks-over-threshold data. Spatial Statistics 
+### Yadav, R., Huser, R., and Opitz, T. (2022) A flexible Bayesian hierarchical modeling framework for spatially dependent peaks-over-threshold data. Spatial Statistics 
 
-### This set of R codes simulate and do the inference of the the product mixture models detailed below: 
+### This set of R codes simulate and do the inference of the product mixture model detailed below: 
 Product mixture model: $Y(s)= \alpha(s) X_1(s) X_2(s) X_3(s)$,  
 $X_1(s)$: i.i.d. Weibull$(1/\beta_1,1/\Gamma(1+\beta_1))$, with shape $1/\beta_1$ and scale $1/\Gamma(1+\beta_1)$, where: $\Gamma(x)$ is the gamma function  
 $X_2(s)$: spatially constant term (varying with respect to time only) with marginal Weibull$(1/\beta_2,1/\Gamma(1+\beta2_))$  
