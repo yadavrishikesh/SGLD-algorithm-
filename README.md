@@ -13,11 +13,11 @@ $X_2(s)$: spatially constant values (varying with respect to time only) with mar
 $X_3(s):$ marginally Inv-Gamma$(\beta_3,\beta_3-1)$, with rate $\beta_3-1 >0$ and shape $\beta3 > 1$, dependence structure governed by Gaussian copula with exponential correlation function $\exp(-h/\rho), h\geq 0$, with range $\rho>0$  
 $\alpha(s):$ scale parameter of the model with $\exp(\gamma_0 + \gamma_1 Z1(s) + \gamma_2 Z_2(s) + \gamma_3 Z_3(s))$, where $Z_i(s), i=1,2,3$ are the spatial covariates 
 
-### The description of all the attached files are provided below
+### The description of all the attached files are provided below:
 #### Data_and_initial_values.R
-This R file consists of functions that Simulate the data from the above product mixture model given the fixed set of parameters and also set the initial values for all the model parameters
+R functions that simulate the data from the above product mixture model for certain combinations of model parameters and also set the initial values for all the model parameters
 #### Data_nsites_20_ntime_100.Rdata
-The R data that is resulsting from some parameter combinations mentioned in Data_and_initial_values.R for 20 spatial locations and 100 independent replicates
+The R data that is resulting from some parameter combinations mentioned in Data_and_initial_values.R for 20 spatial locations and 100 independent temporal replicates
 #### MCMC_main_function.R
 This is the main MCMC function that combines several other R functions to simulate the MCMC samples of each of the model parameters
 #### other-function.R
