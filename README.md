@@ -10,7 +10,7 @@
 Product mixture model: $Y(s)= \alpha(s) X_1(s) X_2(s) X_3(s)$,  
 $X_1(s)$: i.i.d. Weibull$(1/\beta_1,1/\Gamma(1+\beta_1))$, with shape $1/\beta_1$ and scale $1/\Gamma(1+\beta_1)$, where: $\Gamma(x)$ is the gamma function  
 $X_2(s)$: spatially constant term (varying with respect to time only) with marginal Weibull$(1/\beta_2,1/\Gamma(1+\beta_2))$  
-$X_3(s):$ marginally Inv-Gamma$(\beta_3,\beta_3-1)$, with rate $\beta_3-1 >0$ and shape $\beta_3 > 1$, dependence structure governed by Gaussian copula with exponential correlation function $\exp(-h/\rho), h\geq 0$, with range $\rho>0$  
+$X_3(s):$ marginally Inv-Gamma$(\beta_3,\beta_3-1)$, with scale $\beta_3-1 >0$ and shape $\beta_3 > 1$, dependence structure governed by Gaussian copula with exponential correlation function $\exp(-h/\rho), h\geq 0$, with range $\rho>0$  
 $\alpha(s):$ scale parameter of the model with $\exp(\gamma_0 + \gamma_1 Z1(s) + \gamma_2 Z_2(s) + \gamma_3 Z_3(s))$, where $Z_i(s), i=1,2,3$ are the spatial covariates 
 
 ### The description of all the attached files are provided below:
