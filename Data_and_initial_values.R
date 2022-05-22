@@ -6,7 +6,7 @@ library(fields)
 ########### Main Examples of the product mixture model in Section 2.3 ####
 #########################################################################
 
-#PARAMETERS for Gamma-Gamma model: Y(s)= alpha(s) X1(s) * X2 * X3(s), where: gamma(x) is the gamma function
+#Product mixture model: Y(s)= alpha(s) X1(s) * X2 * X3(s), where: gamma(x) is the gamma function
 # X1(s): i.i.d Weibull(1/beta1,1/gamma(1+beta1)), with shape 1/beta1 and scale 1/gamma(1+beta1)
 # X2 spatially constant values (varying with respect to time only) with marginal Weibull(1/beta2,1/gamma(1+beta2))
 # X3(s): marginally Inv-Gamma(beta3,beta3-1), with rate beta3-1 >0 and shape beta3 > 1, dependence structure governed by Gaussian copula with exponential correlation function exp(-h/rho), h>=0, with range rho>0
@@ -64,12 +64,12 @@ plot(loc)
 # INPUTS:
 #   ntime: integer, number of independent time replicates
 #   loc: matrix (dimension: nsites x 2), the i-th row gives the location of the i-th site
-#   log.tilde.param: vector of tilde hyperparameters (alpha,beta1.star, beta1.bar, beta2,rho)
+#   log.tilde.param: vector of tilde hyperparameters
 #   cov: matrix(nsites x (p+1)), p:number of covariets
 # OUTPUT: list with the following elements
-#   Y: simulated data matrix (dimension: ntime x nsites), the i-th row gives the i-th temporal replicate at all the sites
-#   X1.bar: Simulated spatially constant and temporarily varying 
-#  X2: Simulated scale (numerator), matrix (dimension: ntime x nsites), the i-th row gives the i-th temporal replicate at all the sites
+#  Y: simulated data matrix (dimension: ntime x nsites), the i-th row gives the i-th temporal replicate at all the sites
+#  X2: Simulated spatially constant and temporarily varying 
+#  X3: Simulated matrix (dimension: ntime x nsites), the i-th row gives the i-th temporal replicate at all the sites
 sim.data <- function(ntime, loc, log.tilde.param, cov){
   nsites <- nrow(loc) #number of sites
   n <- nsites*ntime #total number of observations in space and time
@@ -86,11 +86,11 @@ sim.data <- function(ntime, loc, log.tilde.param, cov){
   Sigma <- exp(-dist.mat/rho) #correlation matrix for Gaussian copula
   
   X1<- ((matrix(rexp(n,rate=1),nrow=ntime,ncol=nsites)^beta1))/gamma(1+beta1)
-  X2<-((matrix(rep(rexp(ntime,rate=1),times=nsites),nrow=ntime,ncol=nsites)^beta2))/gamma(1+beta2) #process X1.bar in numerator as independent gamma random variables spatially constant (dimension: ntime x nsites)
+  X2<-((matrix(rep(rexp(ntime,rate=1),times=nsites),nrow=ntime,ncol=nsites)^beta2))/gamma(1+beta2) 
   
   Gauss <-mvtnorm:: rmvnorm(n=ntime,mean=rep(0,nsites),Sigma) #simulation of ntime independent multivariate Gaussian vectors (dimension: ntime x nsites)
-  X3<- (qgamma(pnorm(Gauss),shape=beta3,rate=1))/(beta3-1) #process X2(s) in denominator as independent vectors with gamma margins and Gaussian copula (dimension: ntime x nsites)
-  Y <- (alpha*X1*X2)/X3 #data simulation as gamma ratio
+  X3<- (qgamma(pnorm(Gauss),shape=beta3,rate=1))/(beta3-1) #process X3(s) in denominator as independent vectors with gamma margins and Gaussian copula (dimension: ntime x nsites), this is further related to Inv-Gamma (as if X~Gamma, then 1/X ~ Inv-Gamma)
+  Y <- (alpha*X1*X2)/X3 #data simulation as gamma ratio,
   return(list(Y=Y,X1=X1,X2=X2[,1],X3=X3))
 }
 set.seed(1)
@@ -201,8 +201,8 @@ fun.quan<-function(x){
 quantile.matrix.fit<-matrix(rep(unname(apply(Y1[,-(1:n.predict)], 2, fun.quan)),ntime),nrow=ntime,ncol=n.fit,byrow = TRUE)
 
 max.threhold<-10^2
-## Creating the data full data Y (predict data+ fit data) and throhld matrux u.thr (predict threshold + fit threshold)
-## threhold for the stations where we fit th model (183x89) 
+## Creating the data full data Y (predict data + fit data) and threshold matrix u.thr (predict threshold + fit threshold)
+## threhold for the stations where we fit the model 
 u.thr.fit<-matrix(NA,nrow=ntime,ncol=n.fit)
 ## data for fitting
 Y.fit<-matrix(NA,nrow=ntime,ncol=n.fit)
@@ -225,7 +225,6 @@ u.thr.miss<-matrix(max(Y1,na.rm=TRUE)+max.threhold,nrow = ntime,ncol=n.predict)
 u.thr<-cbind(u.thr.miss,u.thr.fit)
 
 ## data for missing sites assumed to be +10^3 than the maximum oberved precipitation
-#data.to.predict.reduced.close.to.thr<-matrix(-10^6,nrow = ntime,ncol=ncol(data.to.predict.reduced.without.time))
 data.to.predict<-matrix(NA,nrow = ntime,ncol=n.predict)
 
 ## data for all sites  (predict+fit)
@@ -243,14 +242,14 @@ rm(j)
 ################ Initial-values ###############################################################
 ##############################################################################################
 # INITIAL VALUES FOR FIRST CHAIN
-gamma0.init1 <- 0.1 #gamma RATE for X2 (denominator) (i.e., controls the overall scale of the data)
+gamma0.init1 <- 0.1 
 gamma1.init1 <- 0
 gamma2.init1 <- 0
 gamma3.init1 <- 0
-beta1.init1 <- 0.5 #gamma SHAPE for X1 (numerator) (i.e., controls departure from GP)
+beta1.init1 <- 0.5
 beta2.init1<-0.5
-beta3.init1 <- 2.5#gamma SHAPE for X2 (denominator), related to the tail index as xi=1/beta2
-rho.init1<-0.1 #RANGE parameter in exponential correlation function exp(-h/rho), h>=0, for the Gaussian copula in X2 (denominator)
+beta3.init1 <- 2.5
+rho.init1<-0.1 
 
 #tilde parametrization
 gamma0.tilde.init1<-gamma0.init1
@@ -282,14 +281,14 @@ init1<-c(tilde.param.init1, log.X2.init1, log.X3.init1)
 
 ############################ Initial1 value for chain2
 
-gamma0.init2<- 0.1 #gamma RATE for X2 (denominator) (i.e., controls the overall scale of the data)
+gamma0.init2<- 0.1 
 gamma1.init2 <- 2
 gamma2.init2 <- 2
 gamma3.init2 <- 2
-beta1.init2 <- 0.1 #gamma SHAPE for X1 (numerator) (i.e., controls departure from GP)
+beta1.init2 <- 0.1 
 beta2.init2<-0.1
-beta3.init2 <- 10#gamma SHAPE for X2 (denominator), related to the tail index as xi=1/beta2
-rho.init2<-2 #RANGE parameter in exponential correlation function exp(-h/rho), h>=0, for the Gaussian copula in X2 (denominator)
+beta3.init2 <- 10
+rho.init2<-2 
 
 # tilde parametrization
 gamma0.tilde.init2<-gamma0.init2
